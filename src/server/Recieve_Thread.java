@@ -41,13 +41,17 @@ public class Recieve_Thread implements Runnable {
 							
 							mss.sendString(f.getName()); //发送文件名		
 							
-							sendFile(f, mss); //发送文件内容	
-														
-							//服务器等待客户端的返回消息
-							while(!mss.recieveString().equals("OK")) 
-								;
-													
-							System.out.println("第"+i+"个文件: "+f.getName()+" 同步完毕。");		
+//							sendFile(f, mss); //发送文件内容	
+//														
+//							//服务器等待客户端的返回消息
+//							while(!mss.recieveString().equals("OK")) 
+//								;
+							String filename	= mss.recieveString();
+							if(!filename.equals("no")) {
+								String ip = mss.recieveString();
+								new Thread(new FileSender(FILE_PATH+"/"+filename, Server.ip_map.get(ip))).start();;
+							}
+							//System.out.println("第"+i+"个文件: "+f.getName()+" 同步完毕。");		
 							i++;
 						}
 					}

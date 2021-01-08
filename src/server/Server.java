@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.*;
@@ -11,9 +12,10 @@ import com.*;
 public class Server {
 	
 	private static final String SERVER_IP = "127.0.0.1";
+	public static HashMap<String, MyStreamSocket> ip_map = null;
 	
 	public static void main(String[] args) {
-		
+		ip_map = new HashMap<>();
 		ServerSocket serversocket = null;
 		ExecutorService pool = Executors.newFixedThreadPool(5);
 		String client_IP;
@@ -32,7 +34,8 @@ public class Server {
 				while(true) {
 					Socket socket = serversocket.accept();
 					MyStreamSocket mss = new MyStreamSocket(socket);
-					client_IP = mss.getIP();				
+					client_IP = mss.getIP();
+					ip_map.put(client_IP, mss);
 					System.out.println(client_IP);
 					
 					Recieve_Thread rt = new Recieve_Thread(mss);
