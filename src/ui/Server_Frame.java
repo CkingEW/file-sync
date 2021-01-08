@@ -102,8 +102,6 @@ public class Server_Frame extends JFrame {
     	jp.setLayout(new BorderLayout(x, x));
     	jp.setBorder(BorderFactory.createEmptyBorder(x, x, x, x));
     	jp1.setLayout(new GridLayout(1, 2, x, x));
-//    	jp1.add(BorderLayout.WEST, button1);
-//    	jp1.add(BorderLayout.CENTER, button2);
     	jp1.add(button1);
     	jp1.add(button2);
         jp.add(BorderLayout.NORTH, panel);
