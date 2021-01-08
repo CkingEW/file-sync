@@ -11,7 +11,7 @@ import com.*;
 
 public class Server {
 	
-	private static final String SERVER_IP = "127.0.0.1";
+	private static final String SERVER_IP = "192.168.1.106";
 	public static HashMap<String, MyStreamSocket> ip_map = null;
 	
 	public static void main(String[] args) {
@@ -31,19 +31,22 @@ public class Server {
 		if(serversocket != null) {
 			try {
 				System.out.println("当前已连接的客户端IP：");
+				int i = 0;
 				while(true) {
 					Socket socket = serversocket.accept();
 					MyStreamSocket mss = new MyStreamSocket(socket);
 					client_IP = mss.getIP();
 					ip_map.put(client_IP, mss);
-					System.out.println(client_IP);
-					
+					if (i==0) {
+						System.out.println(client_IP);
+						i = 1;	
+					}								
 					Recieve_Thread rt = new Recieve_Thread(mss);
 					pool.execute(rt);
 					
 				}
 																
-			} catch (Exception e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

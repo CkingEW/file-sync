@@ -2,6 +2,7 @@ package server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import com.MyStreamSocket;
 
@@ -9,6 +10,7 @@ public class FileSender implements Runnable {
 	
 	protected String filename = null;
 	protected MyStreamSocket mss = null;
+	protected static final String FILE_PATH = "SyncFiles";
 	
 	public FileSender(String filename, MyStreamSocket mss) {
 		// TODO Auto-generated constructor stub
@@ -21,13 +23,12 @@ public class FileSender implements Runnable {
 		// TODO Auto-generated method stub
 		byte[] file_byte = new byte[1024];
 		try {
-			FileInputStream fis = new FileInputStream(filename);
+			FileInputStream fis = new FileInputStream(FILE_PATH+"/"+filename);
 			int len = 0;
-			System.out.println(filename+" start");
 			while((len = fis.read(file_byte)) != -1) {
 				mss.sendFile(file_byte, 0, len);
 			}
-			System.out.println(filename+" finish");
+			System.out.println(filename+"文件同步完成。");
 			
 			fis.close();
 		} catch (Exception e) {

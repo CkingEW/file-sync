@@ -23,6 +23,7 @@ public class FileReciever implements Runnable {
 			fos = new FileOutputStream(filepath + "/" + filename);
 			byte[] b = new byte[1024];
 			int len = 0;
+
 			System.out.println(filename+" start");
 			while((len = mss.recieveFile(b)) == 1024) {
 				fos.write(b, 0, len);

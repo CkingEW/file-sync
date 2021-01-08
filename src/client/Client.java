@@ -31,7 +31,7 @@ public class Client extends Thread{
 	public void sync(String ip, int port, String path) {
 		try{
 			mss = new MyStreamSocket(ip, port, WAIT_TIME);
-			System.out.println(mss.getLocalIP());
+			System.out.println("当前客户端IP: "+mss.getLocalIP());
 		}catch (Exception e) {
 			System.out.println("连接服务器失败");
 		}
@@ -46,26 +46,29 @@ public class Client extends Thread{
 				file_number = mss.recieveNumber();//接收同步文件的数量
 				System.out.println("共需同步"+file_number+"个文件");
 				
-				for (int i=0;i<file_number;i++) {
+				for (int i=1;i<=file_number;i++) {
 					
 					file_name = mss.recieveString();	//获得文件名
+
+					System.out.println("\n正在同步第"+i+"个文件: "+file_name);
+
 					
-					if(!file_map.containsKey(file_name)) {
+					//检查本地是否已有该文件
+					if(file_map.containsKey(file_name)) { //如果文件已存在
+						mss.sendString("exist");			
+					}					
+					else {
 						mss.sendString(file_name);
 						MyStreamSocket mss1 = new MyStreamSocket(ip, port, WAIT_TIME);
-						sleep(500);
+						sleep(500); //确保等待mss1成功连接
 						mss.sendString(mss1.getLocalIP());
 						new Thread(new FileReciever(path, file_name, mss1)).start();
-					}
-					else {
-						mss.sendString("exist");
 					}
 					System.out.println("已同步第"+(i+1)+"个文件: "+file_name);
 				}
 				
-				System.out.println("\n所有文件已同步完成。");
-				
-				
+//				System.out.println("\n所有文件已同步完成。");
+							
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

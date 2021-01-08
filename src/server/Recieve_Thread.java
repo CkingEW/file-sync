@@ -36,18 +36,22 @@ public class Recieve_Thread implements Runnable {
 					int i = 1;
 					for(File f:filelist){	//遍历File[]数组
 						if(!f.isDirectory()) {	//若非目录(即文件)，则打印		
-							
-							System.out.println("\n正在向  "+mss.getIP()+" 发送第"+i+"个文件: "+f.getName());	
-							
+															
 							mss.sendString(f.getName()); //发送文件名		
+							System.out.println("\n正在同步第"+i+"个文件: "+f.getName());
 							
-							String filename	= mss.recieveString();
-							if(!filename.equals("exist")) {
+							String filename	= mss.recieveString();//客户端如果没有这个文件就会请求这个文件
+							
+
+							if(filename.equals("exist")) {
+								System.out.println("第"+i+"个文件: "+f.getName()+" 被跳过。");	
+							}
+							else {
 								String ip = mss.recieveString();
-								new Thread(new FileSender(FILE_PATH+"/"+filename, Server.ip_map.get(ip))).start();;
-							}		
-							i++;
+								new Thread(new FileSender(filename, Server.ip_map.get(ip))).start();
+							}
 						}
+						i++;
 					}
 				}
 									
@@ -58,16 +62,4 @@ public class Recieve_Thread implements Runnable {
 			}
 		}
 	}	
-	
-	public void sendFile(File file, MyStreamSocket mss) throws IOException{
-		byte[] file_byte = new byte[1024*1024];
-		FileInputStream fis = new FileInputStream(file);
-		int len = 0;
-		while((len = fis.read(file_byte)) != -1) {
-			mss.sendFile(file_byte, 0, len);
-		}
-			
-			fis.close();
-	}
-
 }
