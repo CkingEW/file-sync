@@ -42,6 +42,7 @@ public class Recieve_Thread implements Runnable {
 							
 							String filename	= mss.recieveString();//客户端如果没有这个文件就会请求这个文件
 							
+
 							if(filename.equals("exist")) {
 								System.out.println("第"+i+"个文件: "+f.getName()+" 被跳过。");	
 							}
@@ -49,8 +50,6 @@ public class Recieve_Thread implements Runnable {
 								String ip = mss.recieveString();
 								new Thread(new FileSender(filename, Server.ip_map.get(ip))).start();
 							}
-								
-							
 						}
 						i++;
 					}

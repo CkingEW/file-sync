@@ -139,7 +139,7 @@ public class Client_Frame extends JFrame {
 		button.addActionListener(l);
 	}
 	
-	public static void main(String[] args) {
-		Client_Frame mf = new Client_Frame("测试");
-	}
+//	public static void main(String[] args) {
+//		Client_Frame mf = new Client_Frame("测试");
+//	}
 }
