@@ -3,6 +3,7 @@ package com;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -10,13 +11,15 @@ import java.net.Socket;
 public class MyStreamSocket{
 	
 	protected DataInputStream in = null;
+	protected InputStream inn = null;
 	protected DataOutputStream out = null;
 	protected Socket socket = null;
 	
 	public MyStreamSocket(String ip, int port, int timeout) throws IOException {
 		socket = new Socket();
 		socket.connect(new InetSocketAddress(InetAddress.getByName(ip),port), timeout);
-		in = new DataInputStream(socket.getInputStream());// 读取客户端传过来信息的DataInputStream                   
+		inn = socket.getInputStream();
+		in = new DataInputStream(inn);// 读取客户端传过来信息的DataInputStream                   
         out = new DataOutputStream(socket.getOutputStream());// 向客户端发送信息的DataOutputStream  
 	}
 	
@@ -51,7 +54,11 @@ public class MyStreamSocket{
 	}
 	
 	public String getIP() throws IOException{
-		return socket.getInetAddress().getHostAddress();
+		return socket.getInetAddress().getHostAddress()+":"+socket.getPort();
+	}
+	
+	public String getLocalIP() throws IOException{
+		return socket.getLocalAddress().getHostAddress()+":"+socket.getLocalPort();
 	}
 	
 }
