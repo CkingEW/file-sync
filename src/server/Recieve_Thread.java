@@ -9,11 +9,12 @@ import com.MyStreamSocket;
 public class Recieve_Thread implements Runnable {
 	
 	protected MyStreamSocket mss;
-	protected static final String FILE_PATH = "SyncFiles";
+	protected String FILE_PATH;
 	
-	public Recieve_Thread(MyStreamSocket mss) {
+	public Recieve_Thread(MyStreamSocket mss, String filepath) {
 		// TODO Auto-generated constructor stub
 		this.mss = mss;
+		this.FILE_PATH = filepath;
 	}
 	
 	@Override
@@ -31,24 +32,24 @@ public class Recieve_Thread implements Runnable {
 					
 					//发送同步文件的数量				
 					mss.sendNumber(filelist.length);
-					System.out.println("\n共有"+filelist.length+"个文件待同步。");
+					Server.sf.addString("\n共有"+filelist.length+"个文件待同步");
 					
 					int i = 1;
 					for(File f:filelist){	//遍历File[]数组
 						if(!f.isDirectory()) {	//若非目录(即文件)，则打印		
 															
 							mss.sendString(f.getName()); //发送文件名		
-							System.out.println("\n正在同步第"+i+"个文件: "+f.getName());
+							Server.sf.addString("\n正在同步第"+i+"个文件: "+f.getName());
 							
 							String filename	= mss.recieveString();//客户端如果没有这个文件就会请求这个文件
 							
 
 							if(filename.equals("exist")) {
-								System.out.println("第"+i+"个文件: "+f.getName()+" 被跳过。");	
+								Server.sf.addString("第"+i+"个文件: "+f.getName()+" 被跳过");	
 							}
 							else {
 								String ip = mss.recieveString();
-								new Thread(new FileSender(filename, Server.ip_map.get(ip))).start();
+								new Thread(new FileSender(filename, Sync_Thread.ip_map.get(ip))).start();
 							}
 						}
 						i++;
