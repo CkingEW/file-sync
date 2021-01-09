@@ -9,8 +9,8 @@ import ui.Client_Frame;
 
 public class Client{
 	
-	private String Client_IP;
-	private int Client_Port;
+	private String Server_IP;
+	private int Server_Port;
 	private static String Client_Sync_Path;
 	public static Client_Frame cf = null;
 	
@@ -20,8 +20,8 @@ public class Client{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Client_IP = cf.getHostIP();
-				Client_Port = cf.getPort();
+				Server_IP = cf.getHostIP();
+				Server_Port = cf.getPort();
 				Client_Sync_Path = cf.getSyncPath();
 				
 				File file=new File(Client_Sync_Path);
@@ -35,7 +35,7 @@ public class Client{
 				case 2: Timeout_Thread.sync_timeout = 24 * 60 * 60 * 1000;break;
 				case 3: Timeout_Thread.sync_timeout = 0;break;
 				}
-				new Timeout_Thread(Client_IP, Client_Port, Client_Sync_Path).start();
+				new Timeout_Thread(Server_IP, Server_Port, Client_Sync_Path).start();
 			}
 		});
 	}

@@ -26,9 +26,10 @@ public class FileSender implements Runnable {
 		try {
 			FileInputStream fis = new FileInputStream(FILE_PATH+"/"+filename);
 			int len = 0;
-			while((len = fis.read(file_byte)) != -1) {
+			while((len = fis.read(file_byte)) == 1024) {
 				mss.sendFile(file_byte, 0, len);
 			}
+			mss.sendFile(file_byte, 0, len);
 			Server.sf.addString("文件："+filename+"同步完成");
 			
 			fis.close();
