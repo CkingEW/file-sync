@@ -8,12 +8,13 @@ import com.MyStreamSocket;
 
 public class FileSender implements Runnable {
 	
+	protected String FILE_PATH = null;
 	protected String filename = null;
 	protected MyStreamSocket mss = null;
-	protected static final String FILE_PATH = "SyncFiles";
 	
-	public FileSender(String filename, MyStreamSocket mss) {
+	public FileSender(String FILE_PATH, String filename, MyStreamSocket mss) {
 		// TODO Auto-generated constructor stub
+		this.FILE_PATH = FILE_PATH;
 		this.filename = filename;
 		this.mss = mss;
 	}
@@ -23,6 +24,7 @@ public class FileSender implements Runnable {
 		// TODO Auto-generated method stub
 		byte[] file_byte = new byte[1024];
 		try {
+			FILE_PATH = Server.getSyncPath();
 			FileInputStream fis = new FileInputStream(FILE_PATH+"/"+filename);
 			int len = 0;
 			while((len = fis.read(file_byte)) != -1) {

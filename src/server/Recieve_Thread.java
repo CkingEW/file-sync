@@ -49,11 +49,12 @@ public class Recieve_Thread implements Runnable {
 							}
 							else {
 								String ip = mss.recieveString();
-								new Thread(new FileSender(filename, Sync_Thread.ip_map.get(ip))).start();
+								new Thread(new FileSender(FILE_PATH,filename, Sync_Thread.ip_map.get(ip))).start();
 							}
 						}
 						i++;
 					}
+					
 				}
 									
 			} catch (Exception e) {

@@ -30,7 +30,9 @@ public class Timeout_Thread extends Thread{
 				}
 				if(sync_timeout != t)
 					break;
-				while(syncing_rest != 0);
+				while(syncing_rest != 0)
+					;
+				
 				new Sync_Thread(ip, port, sync_path).start();
 			}
 		}

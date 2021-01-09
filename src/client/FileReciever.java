@@ -33,6 +33,9 @@ public class FileReciever implements Runnable {
 			fos.close();
 			mss.close();
 			Timeout_Thread.syncing_rest --;
+			
+			if (Timeout_Thread.syncing_rest==0)
+				Client.cf.addString("所有文件已同步完成");
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

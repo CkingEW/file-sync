@@ -41,6 +41,7 @@ public class Sync_Thread extends Thread {
 													
 				file_number = mss.recieveNumber();//接收同步文件的数量
 				Client.cf.addString("共需同步"+file_number+"个文件");
+				Timeout_Thread.syncing_rest = file_number;
 				
 				for (int i=1;i<=file_number;i++) {
 					
@@ -50,9 +51,9 @@ public class Sync_Thread extends Thread {
 					if(file_map.containsKey(file_name)) { //如果文件已存在
 						mss.sendString("exist");
 						Client.cf.addString("文件：" + file_name + "已存在，将跳过同步");
+						Timeout_Thread.syncing_rest --;
 					}					
 					else {
-						Timeout_Thread.syncing_rest ++;
 						mss.sendString(file_name);
 						MyStreamSocket mss1 = new MyStreamSocket(ip, port, WAIT_TIME);
 						sleep(500); //确保等待mss1成功连接
@@ -60,8 +61,11 @@ public class Sync_Thread extends Thread {
 						new Thread(new FileReciever(sync_path, file_name, mss1)).start();
 					}
 				}
+				
+				if (Timeout_Thread.syncing_rest==0)
+					Client.cf.addString("所有文件已同步完成");
+				
 				mss.close();
-//				Client.cf.addString("\n所有文件已同步完成。");
 							
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

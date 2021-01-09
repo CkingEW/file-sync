@@ -136,6 +136,10 @@ public class Client_Frame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        
+        ((JTextField)jcs[0]).setText("192.168.1.106");
+        ((JTextField)jcs[1]).setText("10086");
+        ((JTextField)jcs[2]).setText("SyncFiles on client");
 	}
 	
 	public String getHostIP() {

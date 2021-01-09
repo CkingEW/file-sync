@@ -17,20 +17,30 @@ public class Server {
 	
 	public static Server_Frame sf = null;
 	private boolean ison = false;
-	
+	private String Server_IP;
+	private int Server_Port;
+	private static String Server_Sync_Path;
+		
 	public Server(String frame_name) {
 		sf = new Server_Frame(frame_name);
 		sf.setListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				Server_IP = sf.getHostIP();
+				Server_Port = sf.getPort();
+				Server_Sync_Path = sf.getSyncPath();
+				
 				if(!ison) {
-					new Sync_Thread(sf.getHostIP(), sf.getPort(), sf.getSyncPath()).start();
+					new Sync_Thread(Server_IP, Server_Port, Server_Sync_Path).start();
 					ison = true;
 				}
 			}
 		});
+	}
+	
+	public static String getSyncPath() {
+		return Server_Sync_Path;
 	}
 	
 	public static void main(String[] args) {
