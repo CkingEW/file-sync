@@ -24,14 +24,15 @@ public class FileReciever implements Runnable {
 			byte[] b = new byte[1024];
 			int len = 0;
 
-			System.out.println(filename+" start");
+			Client.cf.addString("正在同步文件："+filename);
 			while((len = mss.recieveFile(b)) == 1024) {
 				fos.write(b, 0, len);
 			}
 			fos.write(b, 0, len);
-			System.out.println(filename+" finish");
-			
+			Client.cf.addString("文件："+filename+"同步完成");
 			fos.close();
+			mss.close();
+			Timeout_Thread.syncing_rest --;
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

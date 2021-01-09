@@ -61,4 +61,8 @@ public class MyStreamSocket{
 		return socket.getLocalAddress().getHostAddress()+":"+socket.getLocalPort();
 	}
 	
+	public void close() throws IOException {
+		socket.close();
+	}
+	
 }
