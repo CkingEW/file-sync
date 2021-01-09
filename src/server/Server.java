@@ -38,11 +38,7 @@ public class Server {
 			}
 		});
 	}
-	
-	public static String getSyncPath() {
-		return Server_Sync_Path;
-	}
-	
+		
 	public static void main(String[] args) {
 		new Server("服务器");
 	}

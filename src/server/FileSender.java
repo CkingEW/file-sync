@@ -24,7 +24,6 @@ public class FileSender implements Runnable {
 		// TODO Auto-generated method stub
 		byte[] file_byte = new byte[1024];
 		try {
-			FILE_PATH = Server.getSyncPath();
 			FileInputStream fis = new FileInputStream(FILE_PATH+"/"+filename);
 			int len = 0;
 			while((len = fis.read(file_byte)) != -1) {
